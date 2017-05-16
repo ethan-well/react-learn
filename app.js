@@ -26,7 +26,6 @@ const ItemEditor = React.createClass({
     this.forceUpdate();
   },
   save(){
-    console.log(this.state.value);
     this.props.onSave(this.props.id, this.state.value);
     this.forceUpdate();
   },
