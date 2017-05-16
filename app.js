@@ -1,52 +1,56 @@
-// ReactDOM.render(
-//   <div className="container">
-//     <button className="btn default">Add+</button>
-//     <ul className="list-group">
-//       <li className="list-group-item">xixiixi
-//           <a className="glyphicon glyphicon-remove right"></a>
-//           <a className="glyphicon glyphicon-plus right "></a>
-//       </li>
-//       <li className="list-group-item">
-//         <input value="ddd"></input>
-//         <a className="glyphicon glyphicon-saved"></a>
-//       </li>
-//    </ul>
-//  </div>,
-//  document.getElementById('test')
-// );
-
 //Item
 const Item = React.createClass({
   render(){
-    return <li className="list-group-item">xixiixi
+    return (<li className="list-group-item">{this.props.value + this.props.children}
         <a className="glyphicon glyphicon-remove right"></a>
         <a className="glyphicon glyphicon-plus right "></a>
-    </li>
+    </li>)
   }
 });
 //ItemEditor
 const ItemEditor = React.createClass({
   render(){
-    return <li className="list-group-item">
-     <input value="ddd"></input>
+    return (<li className="list-group-item">
+     <input defaultValue={this.props.value}></input>
      <a className="glyphicon glyphicon-saved"></a>
-   </li>
+   </li>)
   }
 });
 //List
 const List = React.createClass({
+
+  getInitialState(){
+    return({
+      list:new Set(),
+      editList:new Set()
+    });
+  },
+  add(){
+    this.state.editList.add({value:''});
+    this.forceUpdate();
+  },
+
   render(){
-     return <div>
-      <button className="btn default">Add+</button>
+    const itemDom = [];
+    const editorDom = [];
+
+    for(let item of this.state.list){
+      itemDom.push(<Item value={item.value} />);
+    }
+
+    for(let editlist of this.state.editList){
+      editorDom.push(<ItemEditor value={editlist.value} />);
+    }
+    return (<div>
+      <button onClick={this.add} className="btn default">Add+</button>
       <ul className="list-group">
-        <Item />
-        <ItemEditor />
+        {itemDom}
+        {editorDom}
       </ul>
-    </div>
+    </div>)
   }
 });
 
-//
 ReactDOM.render(
   <List/>,
   document.getElementById('test')

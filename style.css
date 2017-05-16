@@ -1,3 +1,10 @@
+body{
+
+}
+
+a{
+  cursor: pointer;
+}
 .right{
   float: right;
   display: block;
